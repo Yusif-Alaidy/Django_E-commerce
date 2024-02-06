@@ -53,6 +53,14 @@
 				<input type="password" name="password" placeholder="Password" />
 				<a href="#">Forgot your password?</a>
 				<button>Sign In</button>
+				<hr>
+				<br>
+				
+				{% if messages %}
+					{% for message in messages %}
+					<div class="alrt alert-{{message.tags}}" >{{ message }}</div>
+					{% endfor %}
+				{% endif %}
 			</form>
 		</div>
 		<div class="overlay-container">
