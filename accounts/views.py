@@ -37,6 +37,7 @@ def join_us(request):
 
             if user is not None:
                 login(request, user)
+                messages.success(request, "You are logged in. ")
                 return redirect('home:home')
             else:
                 messages.info(request, 'username or password is incorrect')
