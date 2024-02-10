@@ -1,7 +1,8 @@
 from django.db                import models
 from django.utils.translation import gettext_lazy as _
-from django.utils.text import slugify
-from django.urls import reverse
+from django.utils.text        import slugify
+from django.urls              import reverse
+from datetime                 import datetime 
 # Create your models here.
 
 
@@ -13,6 +14,10 @@ class product(models.Model):
     img         = models.ImageField(upload_to='product/years=%y/month=%m', default='default.png', verbose_name=_('image'))
     slug        = models.SlugField(blank=True,null=True, verbose_name=_('slug'))
     active      = models.BooleanField(default = True, verbose_name=_('active'))
+    date        = models.DateTimeField(default=datetime.now())
+    
+    date1       = models.DateTimeField(auto_now=True)
+    date2       = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         verbose_name        = _("Product")
