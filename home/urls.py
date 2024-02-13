@@ -14,6 +14,7 @@ urlpatterns = [
     path('shoping_cart', views.shoping_cart, name='shoping_cart'),
     path('search_product', views.search_product, name='search_product'),
 
-
+    # add review
+    path('ajax-add-review/<slug:slug>/', views.ajax_add_review, name="ajax-add-review")
     
 ]

@@ -126,31 +126,33 @@
                                     {% endfor %}
                                     <div class="wrapper">
                                         <h3>Leave Your Rate</h3>
-                                        <form method="post">
+                                        <form action="{% url 'home:ajax-add-review' product.slug %}" method="post" id="ReviewFrom">
                                             {% csrf_token %}
                                             <div class="rating">
                                                 <input type="number" name="rating" hidden>
                                                 {% comment %} <input class="bx bx-star star" type="radio" id="star-5"
                                                     name="rate" value="5"><label for="star-5"
                                                     class="bx bx-star star"></label> {% endcomment %}
-                                                <input class="bx bx-star " type="radio" id="star-5" name="rate"
-                                                    value="1">
-                                                <input class="bx bx-star " type="radio" id="star-5" name="rate"
-                                                    value="2">
-                                                <input class="bx bx-star " type="radio" id="star-5" name="rate"
-                                                    value="3">
-                                                <input class="bx bx-star " type="radio" id="star-5" name="rate"
-                                                    value="4">
-                                                <input class="bx bx-star " type="radio" id="star-5" name="rate"
-                                                    value="5">
+                                                        {% comment %} <input class="bx bx-star " type="radio" id="star-5" name="rate"
+                                                            value="1">
+                                                        <input class="bx bx-star " type="radio" id="star-5" name="rate"
+                                                            value="2">
+                                                        <input class="bx bx-star " type="radio" id="star-5" name="rate"
+                                                            value="3">
+                                                        <input class="bx bx-star " type="radio" id="star-5" name="rate"
+                                                            value="4">
+                                                        <input class="bx bx-star " type="radio" id="star-5" name="rate" 
+                                                        {% comment %} value="5"> {% endcomment %}
                                                 {% comment %} <i class='bx bx-star star' style="--i: 0;"></i>
                                                 <i class='bx bx-star star' style="--i: 1;"></i>
                                                 <i class='bx bx-star star' style="--i: 2;"></i>
                                                 <i class='bx bx-star star' style="--i: 3;"></i>
                                                 <i class='bx bx-star star' style="--i: 4;"></i> {% endcomment %}
+                                                {{ratingform.rate}}
                                             </div>
-                                            <textarea name="opinion" cols="30" rows="5"
-                                                placeholder="Your opinion..."></textarea>
+                                            {% comment %} <textarea name="opinion" cols="30" rows="5"
+                                                placeholder="Your opinion..."></textarea> {% endcomment %}
+                                                {{ratingform.review}}
                                             <div class="btn-group">
                                                 <button type="submit" class="btn submit">Submit</button>
                                                 <button class="btn cancel">Cancel</button>

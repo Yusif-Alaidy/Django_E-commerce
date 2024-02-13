@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http      import JsonResponse
 from django.db.models import Avg
-from .models          import *
-from .forms           import *
+from home.models      import *
+from home.forms       import *
 
 def home(request):
 
@@ -80,12 +81,40 @@ def shop_details(request,slug):
     # getting average review
     average_rating = Review.objects.filter(Product=prod).aggregate(rating=Avg('rate'))
     average_rating = int(average_rating['rating'])
+    
+    ratingform = ProductReviewForm()
     context = {
-        'product'  : prod,
-        'reviews'  : reviews,
-        'category' : category,
-        'average_rating'  : average_rating,              
+        'product'         : prod,
+        'reviews'         : reviews,
+        'category'        : category,
+        'average_rating'  : average_rating,       
+        'ratingform'      : ratingform       
         }
     return render(request, 'shop-details.html', context)
 
-
+def ajax_add_review(request, slug):
+    Product = product.objects.get(slug=slug)
+    user    = request.user
+    
+    review      = Review.objects.create(
+        user    = user,
+        Product = Product,
+        review  = request.POST['review'],
+        rate    = request.POST['rate'] 
+    )
+    
+    context = {
+        'user'   : user.username,
+        'review' : request.POST['review'],
+        'rate' : request.POST['rate'],
+    }
+    
+    average_reviews = Review.objects.filter(Product=Product).aggregate(rating=Avg("rate"))
+    
+    return JsonResponse(
+        {
+            'bool'            : True,
+            'context'         : context,
+            'average_reviews' : average_reviews
+        }
+    )
