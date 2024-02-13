@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Avg
 from .models          import *
-
+from .forms           import *
 
 def home(request):
 
@@ -51,13 +52,6 @@ def checkout(request):
 def contact(request):
     return render(request, 'contact.html')
 
-def shop_details(request,slug):
-    prod = get_object_or_404(product, slug=slug)
-    context = {
-        'product':prod,
-        'category':category
-    }
-    return render(request, 'shop-details.html', context)
 
 def shop_grid(request):
     return render(request, 'shop-grid.html')
@@ -76,5 +70,22 @@ def search_product(request):
         return render(request, 'search_product.html', context)
     else:
         return render(request, 'search_product.html')
+
+def shop_details(request,slug):
+    prod = get_object_or_404(product, slug=slug)
+    
+    # getting all review
+    reviews = Review.objects.filter(Product=prod)
+    
+    # getting average review
+    average_rating = Review.objects.filter(Product=prod).aggregate(rating=Avg('rate'))
+    average_rating = int(average_rating['rating'])
+    context = {
+        'product'  : prod,
+        'reviews'  : reviews,
+        'category' : category,
+        'average_rating'  : average_rating,              
+        }
+    return render(request, 'shop-details.html', context)
 
 

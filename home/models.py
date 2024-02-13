@@ -1,12 +1,22 @@
-from django.db                import models
-from django.utils.translation import gettext_lazy as _
-from django.utils.text        import slugify
-from django.urls              import reverse
-from datetime                 import datetime 
+from django.db                     import models
+from django.utils.translation      import gettext_lazy as _
+from django.contrib.auth.models    import User
+from django.utils.text             import slugify
+from django.urls                   import reverse
+from datetime                      import datetime 
+# from shortuuidfield                import ShortUUIDField
+
 # Create your models here.
 
+RATE_CHOICES = [
+    (1,'★☆☆☆☆'),
+    (2,'★★☆☆☆'),
+    (3,'★★★☆☆'),
+    (4,'★★★★☆'),
+    (5,'★★★★★')
+]
 
-class product(models.Model):
+class product(models.Model):    
     title       = models.CharField(max_length=20, verbose_name=_('name'))
     description = models.TextField(blank=True, null=True)
     price       = models.DecimalField(max_digits=9, decimal_places=3, verbose_name=_('price'))
@@ -50,3 +60,21 @@ class category(models.Model):
     
     def __str__(self):
         return self.catname
+
+
+class Review(models.Model):
+    user       = models.ForeignKey           (User, on_delete=models.SET_NULL, null=True)
+    Product    = models.ForeignKey           (product, on_delete=models.SET_NULL, null=True, related_name='reviews')
+    review     = models.TextField            (max_length=3000, blank=True, null=True)
+    rate       = models.IntegerField         (choices= RATE_CHOICES, default=None)
+    date       = models.DateTimeField        (auto_now_add=True)
+    
+    class Meta:
+        verbose_name = 'Review'
+        verbose_name_plural = 'Reviews'
+    
+    def __str__(self):
+        return str(self.Product.title)
+    
+    def get_rating(self):
+        return self.get_rating
