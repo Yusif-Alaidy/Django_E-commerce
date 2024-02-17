@@ -5,3 +5,9 @@ from .models import *
 
 admin.site.register(product)
 admin.site.register(category)
+
+class ProductReviewAdmin(admin.ModelAdmin):
+    list_display = ['user','product','review','rating']
+    
+    
+admin.site.register(ProductReview, ProductReviewAdmin)
