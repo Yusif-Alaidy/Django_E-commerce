@@ -8,7 +8,7 @@ from datetime                 import datetime
 
 class product(models.Model):
     title       = models.CharField(max_length=20, verbose_name=_('name'))
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     price       = models.DecimalField(max_digits=9, decimal_places=3, verbose_name=_('price'))
     category    = models.ForeignKey('category', on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('category'))
     img         = models.ImageField(upload_to='product/years=%y/month=%m', default='default.png', verbose_name=_('image'))
