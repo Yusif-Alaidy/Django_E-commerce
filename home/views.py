@@ -79,10 +79,11 @@ def shop_details(request,slug):
     reviews = Review.objects.filter(Product=prod)
     
     # getting average review
+
     average_rating = Review.objects.filter(Product=prod).aggregate(rating=Avg('rate'))
     average_rating = int(average_rating['rating'])
-    
     ratingform = ProductReviewForm()
+
     context = {
         'product'         : prod,
         'reviews'         : reviews,
